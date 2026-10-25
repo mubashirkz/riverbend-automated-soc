@@ -48,3 +48,7 @@ Task 1 focuses on architecture design, technology decisions, and threat modeling
 ### Security Note
 
 The architecture is a proposed proof of concept. Synthetic logs should be used during development, and production deployment requires appropriate access controls, data protection, and security testing.
+=======
+# riverbend-automated-soc
+Automated SOC architecture, threat modeling, security monitoring, and incident response for Riverbend Microfinance Cooperative.
+>>>>>>> origin/main
