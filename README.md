@@ -14,8 +14,8 @@ This project proposes an automated Security Operations Center (SOC) for Riverben
 
 The architecture shows the proposed flow from log sources through collection, storage, security detection, alert enrichment, automated response, and reporting.
 
-- [View Architecture Diagram (PNG)](diagrams/riverbend_soc_architecture.png)
-- [Edit Architecture Diagram](diagrams/riverbend_soc_architecture.drawio)
+- [View Architecture Diagram (PNG)](Diagrams/riverbend_soc_architecture.png)
+- [Edit Architecture Diagram](Diagrams/riverbend_soc_architecture.drawio)
 
 #### 2. Architecture Decision Log
 
