@@ -1,0 +1,5 @@
+{"timestamp": "2026-10-28T17:17:39.451678+00:00", "event_id": 4624, "event_type": "login", "username": "m.ahmad", "source_ip": "192.168.1.25", "status": "success", "description": "Normal user login"}
+{"timestamp": "2026-10-28T17:17:39.451678+00:00", "event_id": 4625, "event_type": "login", "username": "administrator", "source_ip": "203.0.113.45", "status": "failed", "description": "Failed administrator login"}
+{"timestamp": "2026-10-28T17:17:39.451678+00:00", "event_id": 4625, "event_type": "login", "username": "administrator", "source_ip": "203.0.113.45", "status": "failed", "description": "Repeated failed administrator login"}
+{"timestamp": "2026-10-28T17:17:39.451678+00:00", "event_id": 4688, "event_type": "process_creation", "username": "m.ahmad", "source_ip": "192.168.1.25", "process": "powershell.exe", "command_line": "powershell.exe -EncodedCommand example", "description": "Suspicious encoded PowerShell example"}
+{"timestamp": "2026-10-28T17:17:39.451678+00:00", "event_id": 4624, "event_type": "login", "username": "helpdesk", "source_ip": "192.168.1.30", "status": "success", "description": "Normal helpdesk login"}
