@@ -48,7 +48,44 @@ Task 1 focuses on architecture design, technology decisions, and threat modeling
 ### Security Note
 
 The architecture is a proposed proof of concept. Synthetic logs should be used during development, and production deployment requires appropriate access controls, data protection, and security testing.
-=======
+
 # riverbend-automated-soc
 Automated SOC architecture, threat modeling, security monitoring, and incident response for Riverbend Microfinance Cooperative.
->>>>>>> origin/main
+
+
+## Task 2 - Automated Sigma Rule Testing
+
+![Sigma Rule Testing](https://github.com/mubashirkz/riverbend-automated-soc/actions/workflows/sigma-test.yml/badge.svg)
+
+This project uses GitHub Actions to validate Sigma detection rules, generate Elasticsearch SIEM rule JSON files, validate the generated JSON, and test the rules against sample security logs.
+
+### Run tests locally
+
+Install the dependencies:
+
+```bash
+python -m pip install sigma-cli PyYAML
+sigma plugin install elasticsearch
+```
+
+Validate the Sigma rules:
+
+```bash
+sigma check sigma
+```
+
+Generate the detection JSON files:
+
+```bash
+sigma convert -t lucene -p ecs_windows -f siem_rule -o detections/suspicious_powershell.json sigma/suspicious_powershell.yml
+sigma convert -t lucene -p ecs_windows -f siem_rule -o detections/powershell_network_connection.json sigma/powershell_network_connection.yml
+```
+
+Run the sample-log detection tests:
+
+```bash
+python sample-logs/test_detections.py
+```
+
+Sample events are synthetic Sysmon-style JSON Lines records created for testing. They are not collected from a real system.
+
