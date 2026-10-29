@@ -1,0 +1,20 @@
+
+title: PowerShell Network Connection
+id: 4f8b7c21-3d6a-4e9f-8a12-6c5d0e7b9134
+status: test
+description: Detects network connections initiated by PowerShell.
+logsource:
+    product: windows
+    category: network_connection
+detection:
+    selection_image:
+        Image|endswith: '\powershell.exe'
+    selection_initiated:
+        Initiated: 'true'
+    condition: selection_image and selection_initiated
+falsepositives:
+    - Authorized PowerShell scripts that connect to remote services
+level: medium
+tags:
+    - attack.command-and-control
+    - attack.t1105
