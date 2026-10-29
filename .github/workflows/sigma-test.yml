@@ -1,0 +1,43 @@
+name: Sigma Rule Testing
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-sigma:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Sigma CLI and Elasticsearch backend
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install sigma-cli PyYAML
+          sigma plugin install elasticsearch
+
+      - name: Validate Sigma rules
+        run: sigma check sigma
+
+      - name: Generate JSON detection files
+        run: |
+          mkdir -p detections
+          sigma convert -t lucene -p ecs_windows -f siem_rule -o detections/suspicious_powershell.json sigma/suspicious_powershell.yml
+          sigma convert -t lucene -p ecs_windows -f siem_rule -o detections/powershell_network_connection.json sigma/powershell_network_connection.yml
+
+      - name: Validate generated JSON
+        run: |
+          python -c "import json, pathlib; files=list(pathlib.Path('detections').glob('*.json')); assert files, 'No JSON detections generated'; [json.loads(f.read_text()) for f in files]; print(f'Validated {len(files)} JSON detection files')"
+            
+      - name: Test Sigma rules against sample logs
+        run: python sample-logs/test_detections.py
