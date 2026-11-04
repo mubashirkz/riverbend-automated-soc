@@ -1,7 +1,7 @@
+
 import sys
 
 from pathlib import Path
-
 from unittest.mock import patch, Mock
 
 sys.path.insert(
@@ -11,8 +11,8 @@ sys.path.insert(
 
 import enrich
 
-@patch("enrich.requests.post")
-def test_get_technique_by_name(mock_post):
+
+def test_fetch_attack_patterns():
     mock_response = Mock()
 
     mock_response.json.return_value = {
@@ -31,37 +31,132 @@ def test_get_technique_by_name(mock_post):
     }
 
     mock_response.raise_for_status.return_value = None
-    mock_post.return_value = mock_response
 
-    with patch.object(enrich, "OPENCTI_URL", "https://example.com"), \
-            patch.object(enrich, "OPENCTI_API_KEY", "test-token"):
+    with patch("enrich.requests.post", return_value=mock_response) as mock_post:
+        with patch.object(enrich, "OPENCTI_URL", "https://example.com"):
+            with patch.object(enrich, "OPENCTI_API_KEY", "test-token"):
 
-        result = enrich.get_technique_by_name("Valid Accounts")
+                result = enrich.fetch_attack_patterns()
 
-    assert result == "T1078"
+    assert result[0]["node"]["name"] == "Valid Accounts"
+    assert result[0]["node"]["x_mitre_id"] == "T1078"
 
     mock_post.assert_called_once()
 
-@patch("enrich.requests.post")
-def test_get_technique_by_name_not_found(mock_post):
-    mock_response = Mock()
 
-    mock_response.json.return_value = {
-        "data": {
-            "attackPatterns": {
-                "edges": []
+def test_build_technique_mapping():
+    attack_patterns = [
+        {
+            "node": {
+                "name": "Valid Accounts",
+                "x_mitre_id": "T1078"
             }
+        },
+        {
+            "node": {
+                "name": "Phishing",
+                "x_mitre_id": "T1566"
+            }
+        }
+    ]
+
+    result = enrich.build_technique_mapping(attack_patterns)
+
+    assert result["valid accounts"] == "T1078"
+    assert result["phishing"] == "T1566"
+
+
+def test_enrich_alert():
+    alert = {
+        "alert_id": "ALERT-001",
+        "technique_name": "Valid Accounts",
+        "severity": "High"
+    }
+
+    technique_mapping = {
+        "valid accounts": "T1078"
+    }
+
+    result = enrich.enrich_alert(alert, technique_mapping)
+
+    assert result["mitre"]["technique_id"] == "T1078"
+    assert result["mitre"]["technique_name"] == "Valid Accounts"
+    assert result["severity"] == "High"
+    assert "mitre" not in alert
+
+
+def test_enrich_alert_without_technique():
+    alert = {
+        "alert_id": "ALERT-002",
+        "severity": "Medium"
+    }
+
+    result = enrich.enrich_alert(alert, {})
+
+    assert result == alert
+
+
+def test_process_alerts():
+    sample_alert = {
+        "alert_id": "ALERT-001",
+        "technique_name": "Valid Accounts",
+        "severity": "High"
+    }
+
+    mock_hits = [
+        {
+            "_id": "alert-001",
+            "_source": sample_alert
+        }
+    ]
+
+    mock_client = Mock()
+
+    mock_client.search.return_value = {
+        "hits": {
+            "hits": mock_hits
         }
     }
 
-    mock_response.raise_for_status.return_value = None
-    mock_post.return_value = mock_response
+    attack_patterns = [
+        {
+            "node": {
+                "name": "Valid Accounts",
+                "x_mitre_id": "T1078"
+            }
+        }
+    ]
 
-    with patch.object(enrich, "OPENCTI_URL", "https://example.com"), \
-         patch.object(enrich, "OPENCTI_API_KEY", "test-token"):
+    with patch.object(
+        enrich,
+        "fetch_attack_patterns",
+        return_value=attack_patterns
+    ):
+        with patch.object(
+            enrich,
+            "create_elasticsearch_client",
+            return_value=mock_client
+        ):
+            result = enrich.process_alerts()
 
-        result = enrich.get_technique_by_name("Unknown Technique")
+    expected = {
+        **sample_alert,
+        "mitre": {
+            "technique_name": "Valid Accounts",
+            "technique_id": "T1078"
+        }
+    }
 
-    assert result is None
+    assert result == 1
 
+    mock_client.search.assert_called_once_with(
+        index=enrich.SOURCE_INDEX,
+        query={"match_all": {}},
+        size=1000
+    )
 
+    mock_client.index.assert_called_once_with(
+        index=enrich.ENRICHED_INDEX,
+        id="alert-001",
+        document=expected
+    )
