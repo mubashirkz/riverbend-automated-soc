@@ -1,0 +1,21 @@
+---
+name: send_slack_notification
+pack: riverbend
+description: Send a high-severity SOC alert notification to Slack.
+runner_type: python-script
+entry_point: send_slack_notification.py
+
+parameters:
+  alert:
+    type: object
+    required: true
+
+  issue_url:
+    type: string
+    required: true
+
+  slack_webhook:
+    type: string
+    required: true
+    secret: true
+    default: "{{ st2kv.system.slack_webhook | decrypt_kv }}"

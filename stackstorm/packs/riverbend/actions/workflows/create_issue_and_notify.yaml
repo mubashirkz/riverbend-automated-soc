@@ -1,0 +1,26 @@
+version: 1.0
+
+description: Create a GitHub issue and send a Slack notification for a high-severity alert.
+
+input:
+  - alert
+
+vars:
+  - issue_url: null
+
+tasks:
+  create_github_issue:
+    action: riverbend.create_github_issue
+    input:
+      alert: <% ctx().alert %>
+    next:
+      - when: <% succeeded() %>
+        publish:
+          - issue_url: <% result().result.issue_url %>
+        do: send_slack_notification
+
+  send_slack_notification:
+    action: riverbend.send_slack_notification
+    input:
+      alert: <% ctx().alert %>
+      issue_url: <% ctx().issue_url %>

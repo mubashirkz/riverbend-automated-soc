@@ -82,6 +82,7 @@ def test_enrich_alert():
     assert result["mitre"]["technique_id"] == "T1078"
     assert result["mitre"]["technique_name"] == "Valid Accounts"
     assert result["severity"] == "High"
+    assert result["severity_score"] == 9
     assert "mitre" not in alert
 
 
@@ -93,7 +94,9 @@ def test_enrich_alert_without_technique():
 
     result = enrich.enrich_alert(alert, {})
 
-    assert result == alert
+    assert result["severity_score"] == 5
+    assert "mitre" not in result
+    assert result["alert_id"] == alert["alert_id"]
 
 
 def test_process_alerts():
@@ -141,6 +144,7 @@ def test_process_alerts():
 
     expected = {
         **sample_alert,
+        "severity_score": 9,
         "mitre": {
             "technique_name": "Valid Accounts",
             "technique_id": "T1078"

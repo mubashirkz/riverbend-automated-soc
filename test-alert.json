@@ -1,0 +1,12 @@
+﻿{
+  "alert_id": "test-001",
+  "alert_name": "Suspicious PowerShell Activity",
+  "severity": "high",
+  "severity_score": 9,
+  "source_ip": "192.168.1.50",
+  "description": "Test alert for StackStorm GitHub integration.",
+  "mitre": {
+    "technique_name": "Valid Accounts",
+    "technique_id": "T1078"
+  }
+}
