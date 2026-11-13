@@ -108,13 +108,13 @@ Set these environment variables before running the production service:
 - `OPENCTI_API_KEY` — Your OpenCTI API token.
 - `ELASTICSEARCH_URL` — Your Elasticsearch URL.
 
-For local execution, use:
+For local execution:
 
 ```text
 ELASTICSEARCH_URL=http://localhost:9200
 ```
 
-For a container connected to `riverbend-network`, use:
+For a container connected to `riverbend-network`:
 
 ```text
 ELASTICSEARCH_URL=http://riverbend-elasticsearch:9200
@@ -223,6 +223,95 @@ An enriched alert should contain a `mitre` object similar to:
 - The local demo successfully processed a sample alert and wrote the enriched document to Elasticsearch.
 
 **Important:** The local demo uses a static mapping to demonstrate the enrichment and Elasticsearch write process. The production service uses the OpenCTI GraphQL API to retrieve technique mappings.
+
+## Task 4: Automated SOAR Playbook with StackStorm
+
+The StackStorm Elasticsearch polling sensor triggers the `create_issue_and_notify` workflow when it detects an enriched high-severity alert (severity ≥ 8). The workflow automatically creates a GitHub issue and sends a Slack notification containing the alert details and issue URL.
+
+**Execution evidence:** Slack action returned `status: succeeded` with the log message: `Slack notification sent successfully`. GitHub issue creation was also verified (Issue #1).
+
+## Task 5: SOC Metrics Dashboard and Automated Reporting
+
+### Overview
+
+Grafana is connected to Elasticsearch to display important SOC performance metrics. The dashboard helps security analysts understand alert activity, detection speed, response speed, and false-positive rates.
+
+The dashboard is named **Riverbend SOC Metrics Dashboard**.
+
+### Dashboard Metrics
+
+The dashboard contains four panels:
+
+#### 1. Alert Volume
+
+Displays the total number of alerts over time.
+
+![Alert Volume](screenshots/alert-volume.png)
+
+The dashboard currently uses four synthetic demo alerts for testing.
+
+#### 2. Mean Time to Detect (MTTD)
+
+Measures the average time taken to detect a security event after it occurs.
+
+![MTTD](screenshots/mttd.png)
+
+- Average: 390 seconds
+- Equivalent to: 6.5 minutes
+
+#### 3. Mean Time to Respond (MTTR)
+
+Measures the average time taken to respond to a detected security alert.
+
+![MTTR](screenshots/mttr.png)
+
+- Average: 975 seconds
+- Equivalent to: 16.25 minutes
+
+#### 4. False Positive Rate
+
+Measures the percentage of alerts that are incorrectly identified as security threats.
+
+![False Positive Rate](screenshots/false-positive-rate.png)
+
+- False-positive alerts: 2
+- Total demo alerts: 4
+- False-positive rate: 50%
+
+
+### Live Grafana Dashboard
+
+[Open Riverbend SOC Metrics Dashboard](https://fares-types-composite-boring.trycloudflare.com)
+
+The dashboard is hosted locally and made accessible through Cloudflare Quick Tunnel. Grafana authentication is enabled.
+
+**Availability note:** The public URL works while the laptop, Grafana Docker container, and Cloudflare Tunnel are running. The temporary URL may change when the tunnel is restarted. Elasticsearch is not exposed publicly.
+
+
+### Dashboard Configuration
+
+- Visualization platform: Grafana
+- Data source: Elasticsearch
+- Elasticsearch index: `riverbend-soc-metrics-demo`
+- Dashboard configuration: [dashboard.json](dashboard.json)
+
+The four demo records contain synthetic training data. They demonstrate how SOC metrics can be calculated and displayed; they are not real operational security statistics.
+
+### Automated Weekly Reporting
+
+The reporting component will use Python and Grafana's rendering API to generate a weekly PDF report.
+
+The report will follow this filename format:
+
+`riverbend-soc-report-YYYYMMDD.pdf`
+
+GitHub Actions will be configured to run the report generation script on a weekly schedule and upload the generated PDF as an artifact.
+
+### Deployment
+
+Grafana and Elasticsearch are currently running as Docker containers connected through the `riverbend-network` Docker network.
+
+The live Grafana deployment and reporting automation will be documented here once completed.
 
 ## Security Note
 

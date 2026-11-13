@@ -11,3 +11,10 @@ __pycache__/
 
 # Pytest cache
 .pytest_cache/
+
+# Generated SOC reports and temporary render images
+reports/
+render-test.png
+
+# Local database backups
+backups/
