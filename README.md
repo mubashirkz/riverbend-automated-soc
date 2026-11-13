@@ -281,7 +281,7 @@ Measures the percentage of alerts that are incorrectly identified as security th
 
 ### Live Grafana Dashboard
 
-[Open Riverbend SOC Metrics Dashboard](https://fares-types-composite-boring.trycloudflare.com)
+[Open Riverbend SOC Metrics Dashboard](https://est-forecast-leaving-vpn.trycloudflare.com)
 
 The dashboard is hosted locally and made accessible through Cloudflare Quick Tunnel. Grafana authentication is enabled.
 
