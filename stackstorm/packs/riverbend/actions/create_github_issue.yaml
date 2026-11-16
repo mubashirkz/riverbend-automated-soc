@@ -7,6 +7,10 @@ runner_type: python-script
 entry_point: create_github_issue.py
 
 parameters:
+  dry_run:
+    type: boolean
+    required: false
+    default: true
   alert:
     type: object
     required: true

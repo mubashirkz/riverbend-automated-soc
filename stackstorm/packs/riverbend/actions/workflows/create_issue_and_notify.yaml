@@ -13,6 +13,7 @@ tasks:
     action: riverbend.create_github_issue
     input:
       alert: <% ctx().alert %>
+      dry_run: true
     next:
       - when: <% succeeded() %>
         publish:
@@ -24,3 +25,4 @@ tasks:
     input:
       alert: <% ctx().alert %>
       issue_url: <% ctx().issue_url %>
+      dry_run: true

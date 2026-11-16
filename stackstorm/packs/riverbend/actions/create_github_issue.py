@@ -6,13 +6,10 @@ from st2common.runners.base_action import Action
 
 class CreateGitHubIssueAction(Action):
 
-    def run(self, alert, github_token):
-        """Create a GitHub issue for a high-severity alert."""
+    def run(self, alert, github_token, dry_run=False):
+        """Create or simulate a GitHub issue for a SOC alert."""
 
-        if not github_token:
-            raise ValueError("GitHub token is missing.")
-
-        repository = "mubashirkz/riverbend-automated-soc"
+        repository = "mubashirkz/riverbend-soar-test"
         url = f"https://api.github.com/repos/{repository}/issues"
 
         technique_id = alert.get("mitre", {}).get(
@@ -23,7 +20,7 @@ class CreateGitHubIssueAction(Action):
             "alert_name", "High-severity security alert"
         )
 
-        title = f"High-severity alert – {technique_id}"
+        title = f"High-severity alert - {technique_id}"
 
         remediation_steps = [
             "Investigate the source IP and affected account.",
@@ -54,6 +51,20 @@ class CreateGitHubIssueAction(Action):
             f"- [ ] {step}" for step in remediation_steps
         )
 
+        if dry_run:
+            self.logger.info("DRY RUN: GitHub issue was not submitted.")
+            self.logger.info("Mock issue title: %s", title)
+            self.logger.info("Mock issue payload: %s", body)
+
+            return {
+                "issue_number": 0,
+                "issue_url": "https://example.com/mock-github-issue",
+                "dry_run": True
+            }
+
+        if not github_token:
+            raise ValueError("GitHub token is missing.")
+
         headers = {
             "Accept": "application/vnd.github+json",
             "Authorization": f"Bearer {github_token}",
@@ -63,15 +74,11 @@ class CreateGitHubIssueAction(Action):
         response = requests.post(
             url,
             headers=headers,
-            json={
-                "title": title,
-                "body": body
-            },
+            json={"title": title, "body": body},
             timeout=30
         )
 
         response.raise_for_status()
-
         issue = response.json()
 
         self.logger.info(
@@ -81,5 +88,6 @@ class CreateGitHubIssueAction(Action):
 
         return {
             "issue_number": issue["number"],
-            "issue_url": issue["html_url"]
+            "issue_url": issue["html_url"],
+            "dry_run": False
         }

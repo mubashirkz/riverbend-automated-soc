@@ -6,6 +6,10 @@ runner_type: python-script
 entry_point: send_slack_notification.py
 
 parameters:
+  dry_run:
+    type: boolean
+    required: false
+    default: true
   alert:
     type: object
     required: true
