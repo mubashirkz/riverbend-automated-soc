@@ -1,0 +1,3 @@
+elasticsearch-dsl==8.18.0
+requests==2.34.2
+pytest==9.2.0

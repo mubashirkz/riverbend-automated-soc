@@ -1,0 +1,19 @@
+
+---
+name: high_severity_alert
+pack: riverbend
+description: Trigger the SOC response workflow when an enriched alert has severity score 8 or higher.
+enabled: true
+
+trigger:
+  type: riverbend.high_severity_alert
+
+criteria:
+  trigger.severity_score:
+    type: greaterthan
+    pattern: 7
+
+action:
+  ref: riverbend.create_issue_and_notify
+  parameters:
+    alert: "{{ trigger }}"

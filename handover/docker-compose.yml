@@ -1,0 +1,60 @@
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+    container_name: riverbend-elasticsearch
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    shm_size: 64mb
+    networks:
+      - riverbend-network
+
+  grafana:
+    image: grafana/grafana:13.3.1
+    container_name: riverbend-grafana
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+      - renderer
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD in .env}
+      GF_RENDERING_SERVER_URL: http://riverbend-renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://riverbend-grafana:3000/
+      GF_RENDERING_RENDERER_TOKEN: ${RENDERER_AUTH_TOKEN:?Set RENDERER_AUTH_TOKEN in .env}
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    shm_size: 64mb
+    networks:
+      - riverbend-network
+
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    container_name: riverbend-renderer
+    restart: unless-stopped
+    environment:
+      AUTH_TOKEN: ${RENDERER_AUTH_TOKEN:?Set RENDERER_AUTH_TOKEN in .env}
+      GOMEMLIMIT: 1GiB
+    mem_limit: 2g
+    memswap_limit: 2g
+    shm_size: 1gb
+    networks:
+      - riverbend-network
+
+volumes:
+  elasticsearch-data:
+  grafana-data:
+
+networks:
+  riverbend-network:
+    external: true
+    name: riverbend-network

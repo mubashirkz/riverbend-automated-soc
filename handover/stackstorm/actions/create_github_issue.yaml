@@ -1,0 +1,22 @@
+
+---
+name: create_github_issue
+pack: riverbend
+description: Create a GitHub issue for a high-severity SOC alert.
+runner_type: python-script
+entry_point: create_github_issue.py
+
+parameters:
+  dry_run:
+    type: boolean
+    required: false
+    default: true
+  alert:
+    type: object
+    required: true
+
+  github_token:
+    type: string
+    required: true
+    secret: true
+    default: "{{ st2kv.system.github_token | decrypt_kv }}"

@@ -1,0 +1,11 @@
+---
+name: create_issue_and_notify
+pack: riverbend
+description: Create a GitHub issue and notify Slack for a high-severity alert.
+runner_type: orquesta
+entry_point: workflows/create_issue_and_notify.yaml
+
+parameters:
+  alert:
+    type: object
+    required: true

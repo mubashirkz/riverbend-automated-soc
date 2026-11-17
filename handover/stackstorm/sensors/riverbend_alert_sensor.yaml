@@ -1,0 +1,11 @@
+---
+class_name: "RiverbendAlertSensor"
+entry_point: "riverbend_alert_sensor.py"
+description: "Monitors enriched Elasticsearch alerts for high severity events."
+poll_interval: 30
+trigger_types:
+  -
+    name: "high_severity_alert"
+    description: "Triggered when an enriched alert has severity 8 or higher."
+    payload_schema:
+      type: "object"

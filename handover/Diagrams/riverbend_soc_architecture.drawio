@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="FKWZd1poo7lnEC56nR4_">
+    <mxGraphModel dx="1033" dy="576" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4I6KRTAGTONuXOZQjISF-6" edge="1" parent="1" source="4I6KRTAGTONuXOZQjISF-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="4I6KRTAGTONuXOZQjISF-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;1. LOG SOURCES&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Riverbend Web Portal&lt;br&gt;Android Application&lt;br&gt;Web / Application Servers&lt;/p&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="310" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-7" edge="1" parent="1" source="4I6KRTAGTONuXOZQjISF-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="4I6KRTAGTONuXOZQjISF-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;2. LOG COLLECTION&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Elastic Agent&lt;/p&gt;" vertex="1">
+          <mxGeometry height="50" width="180" x="310" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-9" edge="1" parent="1" source="4I6KRTAGTONuXOZQjISF-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="4I6KRTAGTONuXOZQjISF-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;3. LOG STORAGE&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Elasticsearch&lt;/p&gt;" vertex="1">
+          <mxGeometry height="50" width="180" x="310" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-11" edge="1" parent="1" source="4I6KRTAGTONuXOZQjISF-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="4I6KRTAGTONuXOZQjISF-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;4. DETECTION &amp;amp; SECURITY MONITORING&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Elastic Security / Kibana · Sigma rules&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="240" x="280" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-13" edge="1" parent="1" source="4I6KRTAGTONuXOZQjISF-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="4I6KRTAGTONuXOZQjISF-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;5. ALERT ENRICHMENT&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Python · MITRE ATT&amp;amp;CK mapping&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="200" x="300" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-15" edge="1" parent="1" source="4I6KRTAGTONuXOZQjISF-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="4I6KRTAGTONuXOZQjISF-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;6. AUTOMATED RESPONSE (SOAR)&lt;/b&gt;&lt;/p&gt;&lt;p&gt;StackStorm · GitHub Issues · Slack&lt;/p&gt;&lt;p&gt;Human approval for high-impact actions&lt;/p&gt;" vertex="1">
+          <mxGeometry height="100" width="200" x="300" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;p&gt;&lt;b&gt;7. MONITORING &amp;amp; REPORTING&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Grafana · Weekly PDF report&lt;/p&gt;" vertex="1">
+          <mxGeometry height="80" width="190" x="305" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="4I6KRTAGTONuXOZQjISF-16" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;&lt;b&gt;&lt;i&gt;Riverbend Microfinance Cooperative — Automated SOC Architecture&lt;/i&gt;&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="430" x="190" y="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
