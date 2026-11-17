@@ -1,4 +1,4 @@
-# Project 4: Automated SOC for Riverbend Microfinance Cooperative
+﻿# Project 4: Automated SOC for Riverbend Microfinance Cooperative
 
 **Prepared by:** Mubashir Ahmad
 
@@ -92,21 +92,21 @@ This Python service reads alerts from the `riverbend-alerts` Elasticsearch index
 
 ```text
 enrichment-service/
-├── enrich.py
-├── demo_enrichment.py
-├── requirements.txt
-├── Dockerfile
-└── tests/
-    └── test_enrich.py
+â”œâ”€â”€ enrich.py
+â”œâ”€â”€ demo_enrichment.py
+â”œâ”€â”€ requirements.txt
+â”œâ”€â”€ Dockerfile
+â””â”€â”€ tests/
+    â””â”€â”€ test_enrich.py
 ```
 
 ### Configuration for production mode
 
 Set these environment variables before running the production service:
 
-- `OPENCTI_URL` — Your OpenCTI instance URL.
-- `OPENCTI_API_KEY` — Your OpenCTI API token.
-- `ELASTICSEARCH_URL` — Your Elasticsearch URL.
+- `OPENCTI_URL` â€” Your OpenCTI instance URL.
+- `OPENCTI_API_KEY` â€” Your OpenCTI API token.
+- `ELASTICSEARCH_URL` â€” Your Elasticsearch URL.
 
 For local execution:
 
@@ -226,7 +226,7 @@ An enriched alert should contain a `mitre` object similar to:
 
 ## Task 4: Automated SOAR Playbook with StackStorm
 
-The StackStorm Elasticsearch polling sensor triggers the `create_issue_and_notify` workflow when it detects an enriched high-severity alert (severity ≥ 8). The workflow automatically creates a GitHub issue and sends a Slack notification containing the alert details and issue URL.
+The StackStorm Elasticsearch polling sensor triggers the `create_issue_and_notify` workflow when it detects an enriched high-severity alert (severity â‰¥ 8). The workflow automatically creates a GitHub issue and sends a Slack notification containing the alert details and issue URL.
 
 **Execution evidence:** Slack action returned `status: succeeded` with the log message: `Slack notification sent successfully`. GitHub issue creation was also verified (Issue #1).
 
@@ -311,8 +311,23 @@ GitHub Actions will be configured to run the report generation script on a weekl
 
 Grafana and Elasticsearch are currently running as Docker containers connected through the `riverbend-network` Docker network.
 
-The live Grafana deployment and reporting automation will be documented here once completed.
+Local Grafana and Elasticsearch deployment instructions are provided in handover/docs/DEPLOYMENT_GUIDE.md. The complete stack was not deployed on Render's free tier due to resource and persistent-storage limitations.
 
 ## Security Note
 
 This project is a proof of concept. Synthetic logs should be used during development. Production deployment requires appropriate access controls, secure API-key handling, data protection, and security testing.
+## Final Demo and Deployment
+
+**Watch the 2–3 minute Riverbend SOC demonstration:**
+
+[Watch the Riverbend Automated SOC Demo](https://youtu.be/syRDkH9KKIY)
+
+The demonstration is hosted on YouTube as an unlisted video and can be viewed by anyone with the link without accessing the project environment.
+
+### Render Deployment Limitation
+
+The complete SOC stack was not deployed on Render's free tier because it requires multiple resource-intensive services, including Elasticsearch and StackStorm, along with persistent storage and reliable inter-service communication.
+
+Render's free-tier resource and storage limitations make it unsuitable for reliably hosting this complete stack as a persistent service. Therefore, the project provides Docker-based local deployment instructions instead.
+
+The deployment guide documents the prerequisites, configuration, setup steps, and security considerations.

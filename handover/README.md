@@ -336,3 +336,19 @@ The SOAR workflow is committed with `dry_run: true` by default. Live GitHub and 
 
 The complete stack has not been deployed as a persistent public service. The supplied Docker configurations are intended for controlled local deployment and require the configuration described in the deployment guide.
 
+
+## Final Demo and Deployment
+
+**Watch the 2–3 minute Riverbend SOC demonstration:**
+
+[Watch the Riverbend Automated SOC Demo](https://youtu.be/syRDkH9KKIY)
+
+The demonstration is hosted on YouTube as an unlisted video and can be viewed by anyone with the link without accessing the project environment.
+
+### Render Deployment Limitation
+
+The complete SOC stack was not deployed on Render's free tier because it requires multiple resource-intensive services, including Elasticsearch and StackStorm, along with persistent storage and reliable inter-service communication.
+
+Render's free-tier resource and storage limitations make it unsuitable for reliably hosting this complete stack as a persistent service. Therefore, the project provides Docker-based local deployment instructions instead.
+
+The deployment guide documents the prerequisites, configuration, setup steps, and security considerations.

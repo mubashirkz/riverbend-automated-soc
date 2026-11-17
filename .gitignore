@@ -18,3 +18,4 @@ render-test.png
 
 # Local database backups
 backups/
+handover/demo/*.mp4
